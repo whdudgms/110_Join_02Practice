@@ -37,19 +37,10 @@ public class MemberController {
 	// 나는 name = firstName +LastName, memberId,email = email 이렇게 보고 코딩을 할 것 이다	
 	public ModelAndView join(HttpServletResponse response,@RequestParam HashMap< String, String> params) {
 		ModelAndView mv = new ModelAndView();
-		System.out.println(params.get("passwd"));
-		System.out.println(params.get("passwd"));
-		System.out.println(params);
-		System.out.println(params.get("passwd"));
-		System.out.println(params.get("passwd"));
 		params.put("memberName", params.remove("firstName")+params.remove("lastName"));
 		params.put("memberId", params.get("email"));
 		
 		System.out.println(params);
-
-		params.remove("lastName");
-		params.remove("firstName");
-		
 		mv.setViewName("login");
 		int result = memberService.join(params);
 		
