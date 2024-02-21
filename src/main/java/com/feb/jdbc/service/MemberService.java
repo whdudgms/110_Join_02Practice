@@ -30,11 +30,19 @@ public class MemberService {
 	
 
 	
-	public Member findMember(String memberId) {
+	public boolean login(HashMap<String,String> params) {
 		
-		Member member = memberDao.selectMember(memberId);
+		Member member = memberDao.selectMember(params.get("memberId"));
 		
-		return member;
+		String equPas = member.getPasswd();
+		
+		Sha512Encoder encoder = Sha512Encoder.getInstance();
+		String passwd = encoder.getSecurePassword(params.get("passwd"));
+		if(equPas.equals(passwd)) {
+		return true;
+		}else {
+			return false;
+		}
 	}
 
 }

@@ -35,6 +35,7 @@ public class MemberController {
 	
 	// 입력으로 firstName LastName email passwd를 받는다 
 	// 나는 name = firstName +LastName, memberId,email = email 이렇게 보고 코딩을 할 것 이다	
+	@PostMapping("/join.do")
 	public ModelAndView join(HttpServletResponse response,@RequestParam HashMap< String, String> params) {
 		ModelAndView mv = new ModelAndView();
 		params.put("memberName", params.remove("firstName")+params.remove("lastName"));
@@ -60,16 +61,10 @@ public class MemberController {
 		ModelAndView mv =  new ModelAndView();
 
 		mv.setViewName("login");
-		Member equ = memberService.findMember(params.get("memberId"));
-		String equPas = equ.getPasswd();
+		boolean result = memberService.login(params);
 		
-		Sha512Encoder encoder = Sha512Encoder.getInstance();
-		String passwd = encoder.getSecurePassword(params.get("passwd"));
-		
-		 
-		
-		
-		if(passwd.equals(equPas)) {
+
+		if(result) {
 			mv.addObject("resultMsg","loginOk");
 
 		} else {
